@@ -1,0 +1,4 @@
+<!--index.wxml-->
+<view class="container">
+ <button bindtap="chooseImg">选择图片</button>
+</view>
