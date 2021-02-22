@@ -1,4 +1,12 @@
 <!--index.wxml-->
 <view class="container">
- <button bindtap="chooseImg">选择图片</button>
+ <view class='img-box' bindtap="chooseImg">
+  <block wx:if="{{url.length===0}}">
+    <image class='upload-icon' src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fbpic.588ku.com%2Felement_origin_min_pic%2F00%2F92%2F72%2F8256f231d83244b.jpg&refer=http%3A%2F%2Fbpic.588ku.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1616600555&t=6d88d8829b77eadc5ec823459d6669c1" mode="aspectFit"></image>
+    <text class='text'>上传图片</text>
+  </block>
+  <image wx:else src="{{url}}" mode="aspectFit"></image> 
+ </view>
+ <button bindtap='reselect'>重新选择</button>
+ <button bindtap="goCutPage">确定</button>
 </view>

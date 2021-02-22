@@ -1,1 +1,28 @@
 /**index.wxss**/
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.img-box {
+  width: 80%;
+  height: 50%;
+  border: 2rpx pink solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.upload-icon {
+  width: 100rpx;
+  height: 100rpx;
+}
+.upload-img {
+  width: 100%;
+}
+.text {
+  color: pink;
+}

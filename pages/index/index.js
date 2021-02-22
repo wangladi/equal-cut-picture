@@ -12,20 +12,37 @@ Page({
     wx.chooseImage({
       count: 1,
       success: function(res) {
-        let imgUrl = ''
-        wx.navigateTo({
-          url: `../img/img?imgUrl=${res.tempFilePaths[0]}`
-        })
-        // that.setData({
-        //   url: res.tempFilePaths[0]
+        // let imgUrl = ''
+        // wx.navigateTo({
+        //   url: `../img/img?imgUrl=${res.tempFilePaths[0]}`
         // })
+        that.setData({
+          url: res.tempFilePaths[0]
+        })
         // console.log(that.data.url)
         console.log('图片上传成功', res)
       },
     })
-    // wx.navigateTo({
-    //   url: '../logs/logs'
-    // })
+  },
+  reselect() {
+    this.setData({
+      url:""
+    })
+  },
+  // 跳转去切割图片页面
+  goCutPage() {
+    if(this.data.url.length === 0) {
+      wx.showToast({
+        title: '请先上传图片',
+        icon: 'none',
+        duration: 2000
+      })
+    } else {
+      let imgUrl = ''
+      wx.navigateTo({
+        url: `../img/img?imgUrl=${this.data.url}`
+      })
+    }
   },
   onLoad() {
     if (app.globalData.userInfo) {

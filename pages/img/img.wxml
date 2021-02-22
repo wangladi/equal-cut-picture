@@ -1,4 +1,25 @@
 <!--pages/img/img.wxml-->
 <view class='img'>
- <image src="{{url}}"></image> 
+  <view class='img-area'>
+    <image src="{{url}}" mode="aspectFit"></image> 
+  </view>
+  <view class='bar'>
+    <view class='bar-block'>
+      <view class='bar-square four-s'>
+        <text class='line-row'></text>
+        <text class='line-column'></text>
+      </view>
+      <text>2X2</text>
+    </view>
+    <view class='bar-block'>
+        <view class='bar-square nine-s'>
+          <text class='line'></text>
+          <text class='line'></text>
+          <text class='line'></text>
+          <text class='line'></text>
+        </view>
+        <text>3X3</text>
+      </view>
+  </view>
+  <button>保存图片</button>
 </view>
