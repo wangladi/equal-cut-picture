@@ -4,12 +4,12 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 }
 .img-area {
-  width: 90%;
-  height: 50%;
+  width: 120%;
+  height: 600rpx;
   border: 2rpx pink solid;
 }
 .bar {

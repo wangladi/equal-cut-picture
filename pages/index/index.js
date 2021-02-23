@@ -4,7 +4,8 @@ const app = getApp()
 
 Page({
   data: {
-    url: ''
+    url: '',
+    widthFit: true
   },
   // 事件处理函数
   chooseImg() {
@@ -25,8 +26,20 @@ Page({
     })
   },
   reselect() {
-    this.setData({
-      url:""
+    const that = this
+    wx.chooseImage({
+      count: 1,
+      success: function (res) {
+        // let imgUrl = ''
+        // wx.navigateTo({
+        //   url: `../img/img?imgUrl=${res.tempFilePaths[0]}`
+        // })
+        that.setData({
+          url: res.tempFilePaths[0]
+        })
+        // console.log(that.data.url)
+        console.log('图片上传成功', res)
+      },
     })
   },
   // 跳转去切割图片页面

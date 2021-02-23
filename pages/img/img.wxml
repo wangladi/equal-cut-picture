@@ -1,7 +1,8 @@
 <!--pages/img/img.wxml-->
 <view class='img'>
   <view class='img-area'>
-    <image src="{{url}}" mode="aspectFit"></image> 
+    <image src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fwallpaper%2F1509%2F17%2Fc0%2F12801418_1442499418889_800x600.jpg&refer=http%3A%2F%2Fimg.pconline.com.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1616655499&t=6a36e2b705fd936d062a39e61a914e80"></image> 
+    <!-- <image src="{{url}}" mode="aspectFit"></image>  -->
   </view>
   <view class='bar'>
     <view class='bar-block'>
