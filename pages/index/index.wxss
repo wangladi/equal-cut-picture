@@ -9,6 +9,9 @@
   justify-content: scenter;
   align-items: center;
 }
+.cur-img {
+  position: absolute;
+}
 .scroll-image {
   height: 50%;
   position: absolute;

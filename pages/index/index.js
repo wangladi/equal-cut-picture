@@ -5,7 +5,9 @@ const app = getApp()
 Page({
   data: {
     url: '',
-    widthFit: true
+    widthFit: false,
+    img_t: 0,
+    img_l: 0
   },
   // 事件处理函数
   chooseImg() {
@@ -56,6 +58,19 @@ Page({
         url: `../img/img?imgUrl=${this.data.url}`
       })
     }
+  },
+  _start() {
+    console.log('touchstart')
+  },
+  _move(e) {
+    console.log('touchmove',e)
+    this.setData({
+      img_t: e.touches[0].clientX - 20,
+      img_l: e.touches[0].clientY -20
+    })
+  },
+  _end() {
+    console.log('touchend')
   },
   onLoad() {
     if (app.globalData.userInfo) {
