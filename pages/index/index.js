@@ -5,15 +5,54 @@ const app = getApp()
 Page({
   data: {
     url: '',
-    widthFit: false,
-    img_t: 0,
-    img_l: 0
+    imgMode: 'widthFix',
+    relativeX: 0,
+    relativeY: 0,
+    imgW: 0,
+    imgH: 0,
+    imgT: 0,
+    imgL: 0
+  },
+  imgLoadFunc(e) {
+    console.log('图片信息', e.detail)
+    const that = this
+    const query = wx.createSelectorQuery()
+    query.select('.img-box').boundingClientRect(function (rect) {
+      const [w, h] = [e.detail.width, e.detail.height]
+      if (w / h > 1) { // 宽度大于高度，横向平移
+        const left = rect.left - 0.5 * (280 * (w / h) - 280)
+        that.setData({
+          imgMode: 'heightFix',
+          imgH: 280,
+          imgW: 'auto',
+          imgT: rect.top,
+          imgL: left
+        })
+      } else if (w / h < 1) { // 高度大于宽度，纵向平移
+        const top = rect.top - 0.5 * (280 * (h / w)- 280)
+        that.setData({
+          imgMode: 'widthFix',
+          imgW: 280,
+          imgH: 'auto',
+          imgL: rect.left,
+          imgT: top,
+        })
+      } else {
+        that.setData({
+          imgH: 280,
+          imgW: 280,
+          imgL: rect.left,
+          imgT: rect.top
+        })
+      }
+    }).exec()
   },
   // 事件处理函数
   chooseImg() {
     const that = this
     wx.chooseImage({
       count: 1,
+      sizeType: 'original',
       success: function(res) {
         // let imgUrl = ''
         // wx.navigateTo({
@@ -59,46 +98,30 @@ Page({
       })
     }
   },
-  _start() {
-    console.log('touchstart')
-  },
-  _move(e) {
-    console.log('touchmove',e)
+  _start(e) {
+    console.log('touchstart',e)
     this.setData({
-      img_t: e.touches[0].clientX - 20,
-      img_l: e.touches[0].clientY -20
+      relativeX: e.touches[0].clientX - e.target.offsetLeft,
+      relativeY: e.touches[0].clientY - e.target.offsetTop
     })
   },
-  _end() {
-    console.log('touchend')
-  },
-  onLoad() {
-    if (app.globalData.userInfo) {
+  _move(e) {
+    console.log('touchmove', e.touches[0].clientX - this.data.relativeX)
+    if (this.data.imgMode === 'heightFix') {
       this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
+        imgL: e.touches[0].clientX - this.data.relativeX
       })
-    } else if (this.data.canIUse) {
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
     } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
+      this.setData({
+        imgT: e.touches[0].clientY - this.data.relativeY
       })
     }
+  },
+  _end(e) {
+    console.log('touchend')
+    console.log(this.data.imgL, this.data.imgT)
+  },
+  onLoad() {
   },
   getUserInfo(e) {
     console.log(e)

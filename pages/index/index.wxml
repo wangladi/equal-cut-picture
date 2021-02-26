@@ -1,19 +1,20 @@
 <!--index.wxml-->
 <view class="container">
-  <!-- <image src="{{url}}"></image> -->
-  <!-- <scroll-view class='scroll-image' scroll-x="{{true}}" scroll-y="{{true}}"> -->
-    <!-- <image class="{{widthFit?'image-w':'image-h'}}" src="{{url}}" mode="{{widthFit?'heightFix':'widthFix'}}"></image> -->
-    <image src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fwallpaper%2F1509%2F17%2Fc0%2F12801418_1442499418889_800x600.jpg&refer=http%3A%2F%2Fimg.pconline.com.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1616655499&t=6a36e2b705fd936d062a39e61a914e80" mode='heightFix' bindtouchstart="_start" bindtouchmove="_move" bindtouchend="_end" style="top:{{img_t+'px'}};left:{{img_l+'px'}}"
-class='cur-img'>
+    <image src="{{url}}" mode='widthFix' bindtouchstart="_start" bindtouchmove="_move" bindtouchend="_end" 
+    style="width:{{imgW}}px;height:{{imgH}}px;left:{{imgL}}px;top:{{imgT}}px"
+class='cur-img' mode="{{imgMode}}" bindload="imgLoadFunc">
     </image> 
-  <!-- </scroll-view> -->
-  <block wx:if="{{widthFit}}">
+  <!-- <block wx:if="{{widthFit}}">
     <view wx:for="{{2}}" class="{{index===0?'cover cover-left':'cover cover-right'}}"></view>
   </block>
   <block wx:if="{{!widthFit}}">
     <view wx:for="{{2}}" class="{{index===0?'cover cover-top':'cover cover-bottom'}}"></view>
-  </block>
+  </block> -->
   <view class='img-box' bindtap="chooseImg">
+    <view class="border border-left-top"></view>
+    <view class="border border-left-bottom"></view>
+    <view class="border border-right-top"></view>
+    <view class="border border-right-bottom"></view>
   </view>
   <view class='btns'>
     <button class='btn' bindtap='reselect'>选择图片</button>
