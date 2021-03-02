@@ -4,12 +4,12 @@
     style="width:{{imgW}}px;height:{{imgH}}px;left:{{imgL}}px;top:{{imgT}}px"
 class='cur-img' mode="{{imgMode}}" bindload="imgLoadFunc">
     </image> 
-  <!-- <block wx:if="{{widthFit}}">
+  <block>
     <view wx:for="{{2}}" class="{{index===0?'cover cover-left':'cover cover-right'}}"></view>
   </block>
-  <block wx:if="{{!widthFit}}">
+  <block>
     <view wx:for="{{2}}" class="{{index===0?'cover cover-top':'cover cover-bottom'}}"></view>
-  </block> -->
+  </block>
   <view class='img-box' bindtap="chooseImg">
     <view class="border border-left-top"></view>
     <view class="border border-left-bottom"></view>
@@ -20,4 +20,5 @@ class='cur-img' mode="{{imgMode}}" bindload="imgLoadFunc">
     <button class='btn' bindtap='reselect'>选择图片</button>
     <button class='btn' bindtap="goCutPage">确定</button>
   </view>
+  <canvas id="canvas-img"></canvas>
 </view>
