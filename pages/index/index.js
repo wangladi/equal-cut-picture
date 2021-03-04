@@ -5,7 +5,8 @@ const app = getApp()
 Page({
   data: {
     url: '',
-    imgMode: 'widthFix',// hightFix为扁图
+    ratio: 1,//图片宽高比
+    imgMode: 'widthFix',// hieghtFix为扁图
     // 裁剪区域的位置
     areaLeft: 0,
     areaTop: 0,
@@ -20,11 +21,36 @@ Page({
   },
   // 将原图绘制在画布上
   draw() {
-    const query = wx.createSelectorQuery()
-    query.select('#canvas-img').exec(res=>{
-      console.log('图片绘制')
+    const that = this
+    const ctx = wx.createCanvasContext("imgCanvas", that);
+    // ctx.drawImage(that.data.url, 0, 0, that.data.imgW, that.data.imgH);
+    // ctx.draw()
+    console.log('本地缓存图片地址', that.data.url)
+    wx.getImageInfo({
+      src: that.data.url,
+      success(res) {
+        console.log('新拿到的路径', res, that.data.imgW, that.data.imgH)
+        //在这里进行canvas
+        const [path, width, height] = [res.path, res.width, res.height] //本地图片路径/图片的宽/图片的高
+        ctx.drawImage(path, 0, 0, that.data.imgW, that.data.imgH)
+        ctx.draw()
+      }
     })
-
+    // const path = 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3302399998,3216746631&fm=26&gp=0.jpg'
+    // wx.downloadFile({
+    //   url: path,
+    //   success(res) {
+    //     if (res.statusCode === 200) {
+    //       console.log('啥玩意', res)
+    //       wx.playVoice({
+    //         filePath: res.tempFilePath
+    //       })
+    //       const ctx = wx.createCanvasContext("imgCanvas", that);
+    //       ctx.drawImage(res.tempFilePath, 0, 0, that.data.imgW, that.data.imgH);
+    //       ctx.draw()
+    //     }
+    //   }
+    // })
   },
   // 图片加载
   imgLoadFunc(e) {
@@ -32,17 +58,18 @@ Page({
     const that = this
     const query = wx.createSelectorQuery()
     query.select('.img-box').boundingClientRect(function (rect) {
+      const [w, h] = [e.detail.width, e.detail.height]
       that.setData({
         areaLeft: rect.left,
-        areaTop: rect.top
+        areaTop: rect.top,
+        ratio: w / h
       })
-      const [w, h] = [e.detail.width, e.detail.height]
       if (w / h > 1) { // 宽度大于高度，横向平移
         const left = rect.left - 0.5 * (280 * (w / h) - 280)
         that.setData({
           imgMode: 'heightFix',
           imgH: 280,
-          imgW: 'auto',
+          imgW: 280 * that.data.ratio,
           imgT: rect.top,
           imgL: left,
           initLeft: left
@@ -52,7 +79,7 @@ Page({
         that.setData({
           imgMode: 'widthFix',
           imgW: 280,
-          imgH: 'auto',
+          imgH: 280 / that.data.ratio,
           imgL: rect.left,
           imgT: top,
           initTop: top
@@ -66,6 +93,7 @@ Page({
         })
       }
     }).exec()
+    this.draw()
   },
   // 事件处理函数
   chooseImg() {
@@ -73,7 +101,8 @@ Page({
     wx.chooseImage({
       count: 1,
       sizeType: 'original',
-      success: function(res) {
+      sourceType: ['album', 'camera'],
+      success(res) {
         // let imgUrl = ''
         // wx.navigateTo({
         //   url: `../img/img?imgUrl=${res.tempFilePaths[0]}`
@@ -105,14 +134,28 @@ Page({
   },
   // 跳转去切割图片页面
   goCutPage() {
-    console.log('出发了吗')
+    console.log('截取了吗')
+    let x,y
+    if (this.data.imgMode === 'heightFix') { // 横图
+      y = 0
+      x = this.data.areaLeft - this.data.imgL
+    } else {
+      x = 0
+      y = this.data.areaTop - this.data.imgT
+    }
+    console.log('拿到x,y了吗', x, y)
+    const that = this
     wx.canvasToTempFilePath({
-      x: this.data.imgL,
-      y: this.data.imgT,
+      x: x,
+      y: y,
       width: 280,
       height: 280,
+      canvasId: 'imgCanvas',
       success(res) {
-        console.log('截取拿到的',res)
+        console.log('截取拿到的', res.tempFilePath)
+        wx.navigateTo({
+          url: `../img/img?imgUrl=${res.tempFilePath}`
+        })
       }
      })
     // if(this.data.url.length === 0) {

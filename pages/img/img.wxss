@@ -1,15 +1,12 @@
 /* pages/img/img.wxss */
 .img {
-  width: 100vw;
-  height: 100vh;
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  flex-flow: column nowrap;
   align-items: center;
 }
 .img-area {
-  width: 120%;
-  height: 600rpx;
+  width: 280px;
+  height: 280px;
   border: 2rpx pink solid;
 }
 .bar {

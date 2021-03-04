@@ -5,10 +5,10 @@
 class='cur-img' mode="{{imgMode}}" bindload="imgLoadFunc">
     </image> 
   <block>
-    <view wx:for="{{2}}" class="{{index===0?'cover cover-left':'cover cover-right'}}"></view>
+    <view wx:for="{{2}}" wx:key='index' class="{{index===0?'cover cover-left':'cover cover-right'}}"></view>
   </block>
   <block>
-    <view wx:for="{{2}}" class="{{index===0?'cover cover-top':'cover cover-bottom'}}"></view>
+    <view wx:for="{{2}}" wx:key='index' class="{{index===0?'cover cover-top':'cover cover-bottom'}}"></view>
   </block>
   <view class='img-box' bindtap="chooseImg">
     <view class="border border-left-top"></view>
@@ -20,5 +20,7 @@ class='cur-img' mode="{{imgMode}}" bindload="imgLoadFunc">
     <button class='btn' bindtap='reselect'>选择图片</button>
     <button class='btn' bindtap="goCutPage">确定</button>
   </view>
-  <canvas id="canvas-img"></canvas>
+  <!-- style="width:{{imgW !== 'auto'?imgW + 'px':imgW}};height:{{iimgH !== 'auto'?imgH + 'px':imgH}}" -->
+  <canvas canvas-id="imgCanvas" class='img-canvas' style="width:{{imgW}}px;height:{{imgH}}px"></canvas>
+  <!-- <image src="{{cutImgPath}}" style="z-index:10000"></image> -->
 </view>
