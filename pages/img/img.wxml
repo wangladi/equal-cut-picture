@@ -1,24 +1,30 @@
 <!--pages/img/img.wxml-->
 <view class='img'>
+  <view wx:if="{{cutMethod == 4}}" class='line-assemble fourLine'>
+    <view class="cLine"></view>
+    <view class='rLine'></view>
+  </view>
+  <view wx:if="{{cutMethod == 9}}" class='line-assemble nineLine'>
+    <view class="cLine one"></view>
+    <view class="cLine two"></view>
+    <view class='rLine three'></view>
+    <view class='rLine four'></view>
+  </view>
   <image src="{{url}}" class='img-area'></image> 
     <!-- <image src="{{url}}" mode="aspectFit"></image>  -->
   <view class='bar'>
-    <view class='bar-block'>
-      <view class='bar-square four-s'>
-        <text class='line-row'></text>
-        <text class='line-column'></text>
-      </view>
-      <text>2X2</text>
+    <!-- 九宫格选中 https://s3.ax1x.com/2021/03/05/6elCY6.png-->
+    <view class='bar-block' data-num='4' bindtap="swichMethod">
+      <image src="{{cutMethod == 4?'https://s3.ax1x.com/2021/03/05/6elynJ.png':'https://s3.ax1x.com/2021/03/05/6elIje.png'}}" ></image>
+      <text>2x2</text>
     </view>
-    <view class='bar-block'>
-        <view class='bar-square nine-s'>
-          <text class='line'></text>
-          <text class='line'></text>
-          <text class='line'></text>
-          <text class='line'></text>
-        </view>
-        <text>3X3</text>
-      </view>
+    <!-- 四宫格选中https://s3.ax1x.com/2021/03/05/6elynJ.png -->
+    <view class='bar-block' data-num='9' bindtap="swichMethod">
+      <image src="{{cutMethod == 9?'https://s3.ax1x.com/2021/03/05/6elJmj.png':' https://s3.ax1x.com/2021/03/05/6mCVYR.png'}}"></image>
+      <text>3x3</text>
+    </view>
+    
   </view>
-  <button>保存图片</button>
+  <button bindtap="saveImg">保存图片</button>
+  <canvas canvas-id="squareCanvas" class='square-canvas'></canvas>
 </view>
