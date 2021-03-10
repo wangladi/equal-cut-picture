@@ -7,7 +7,27 @@ Page({
   data: {
     url:'',
     cutMethod: 4,// 选中的切割图标
-    imgs: [] // 分割后拿到的图片地址
+    imgs: [], // 分割后拿到的图片地址
+    fourData: [
+      { x: 0, y: 0, side: 140 },
+      { x: 140, y: 0, side: 140 },
+      { x: 0, y: 140, side: 140 },
+      { x: 140, y: 140, side: 140 },
+    ],
+    nineData: [
+      { x: 0, y: 0, side: 280 / 3 },
+      { x: 280 / 3, y: 0, side: 280 / 3 },
+      { x: 560 / 3, y: 140, side: 280 / 3 },
+      { x: 0, y: 280 / 3 , side: 280 / 3 },
+      { x: 280 / 3, y: 280 / 3, side: 280 / 3 },
+      { x: 560 / 3, y: 280 / 3, side: 280 / 3 },
+      { x: 0, y: 560 / 3, side: 280 / 3 },
+      { x: 280 / 3, y: 560 / 3, side: 280 / 3 },
+      { x: 560 / 3, y: 560 / 3, side: 280 / 3 }
+    ],
+    // 是否拥有相机权限
+    authStaus: false
+
   },
   swichMethod(e) {
     this.setData({
@@ -16,31 +36,84 @@ Page({
   },
   // 保存切割图片,首先将图片绘制到canvas,用canvas进行切割，切割之后转成图片，saveImageToPhotosAlbum
   saveImg() {
-  //  let data
-   if (this.data.cutMethod == 4) {
-     this.handleImg(2,0,0)
+    console.log('保存图片', typeof this.data.cutMethod)
+   if (Number(this.data.cutMethod) === 4) {
+     console.log('进来了吗')
+     for (let item of this.data.fourData) {
+       this.handleImg(item.side, item.x, item.y)
+     }
+    
    }
-    if (this.data.cutMethod == 9) {
-      this.handleImg(3, 0, 0)
+    if (Number(this.data.cutMethod) === 9) {
+      for (let item of this.data.nineData) {
+        this.handleImg(item.side, item.x, item.y)
+      }
     }
   },
-  // 剪切图片
-  handleImg(num,x,y) {
+  // 获取到分割图片的地址
+  handleImg(side,x,y) {
     const that = this
     wx.canvasToTempFilePath({
       x: x,
       y: y,
-      width: 280 / Number(num),
-      height: 280 / Number(num),
-      canvasId: 'imgCanvas',
+      width: side,
+      height: side,
+      canvasId: 'squareCanvas',
       success(res) {
-        console.log('截取拿到的', res.tempFilePath)
         that.setData({
-          imgs: that.data.imgs.push(res.tempFilePath)
+          imgs: [...that.data.imgs, res.tempFilePath]
         })
-        
+        that.saveToAlbum(res.tempFilePath)
       }
     })
+  },
+  // 将图片保存到手机上
+  getAuth(path) {
+    const that = this
+    // 获取用户权限是否允许访问相机
+    wx.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.writePhotosAlbum']) {
+          wx.authorize({
+            scope: 'scope.writePhotosAlbum',
+            success(authRes) {
+              that.setData({
+                authStaus: true
+              })
+              that.saveToAlbum(path)
+            }
+          })
+        } else {
+          that.setData({
+            authStaus: true
+          })
+          that.saveToAlbum(path)
+        }
+      }
+    })
+  },
+  //拿到权限保存图片到相册
+  saveToAlbum(path) {
+    if (!this.data.authStaus) {
+      this.getAuth(path)
+    } else {
+      wx.saveImageToPhotosAlbum({
+        filePath: path,
+        success(res) {
+          console.log('图片保存到手机成功')
+          wx.showToast({
+            title: '图片已保存',
+            duration: 2000
+          })
+        },
+        fail(err) {
+          wx.showToast({
+            title: '图片保存失败',
+            duration: 2000
+          })
+        }
+      })
+    }
   },
   /**
    * 生命周期函数--监听页面加载
