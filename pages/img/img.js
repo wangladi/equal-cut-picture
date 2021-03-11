@@ -17,7 +17,7 @@ Page({
     nineData: [
       { x: 0, y: 0, side: 280 / 3 },
       { x: 280 / 3, y: 0, side: 280 / 3 },
-      { x: 560 / 3, y: 140, side: 280 / 3 },
+      { x: 560 / 3, y: 0, side: 280 / 3 },
       { x: 0, y: 280 / 3 , side: 280 / 3 },
       { x: 280 / 3, y: 280 / 3, side: 280 / 3 },
       { x: 560 / 3, y: 280 / 3, side: 280 / 3 },
@@ -26,17 +26,20 @@ Page({
       { x: 560 / 3, y: 560 / 3, side: 280 / 3 }
     ],
     // 是否拥有相机权限
-    authStaus: false
+    authStaus: false,
+    // 图片保存成功
+    saveNum: 0
 
   },
   swichMethod(e) {
     this.setData({
+      saveNum: 0,
       cutMethod: e.currentTarget.dataset.num
     })
   },
   // 保存切割图片,首先将图片绘制到canvas,用canvas进行切割，切割之后转成图片，saveImageToPhotosAlbum
   saveImg() {
-    console.log('保存图片', typeof this.data.cutMethod)
+    console.log('保存图片', this.data.saveNum)
    if (Number(this.data.cutMethod) === 4) {
      console.log('进来了吗')
      for (let item of this.data.fourData) {
@@ -63,12 +66,17 @@ Page({
         that.setData({
           imgs: [...that.data.imgs, res.tempFilePath]
         })
-        that.saveToAlbum(res.tempFilePath)
+        if (!that.data.authStaus) {
+          that.getAuth(res.tempFilePath)
+        } else {
+          that.saveToAlbum(res.tempFilePath)
+        }
       }
     })
   },
   // 将图片保存到手机上
   getAuth(path) {
+    console.log('进来获取权限')
     const that = this
     // 获取用户权限是否允许访问相机
     wx.getSetting({
@@ -94,26 +102,29 @@ Page({
   },
   //拿到权限保存图片到相册
   saveToAlbum(path) {
-    if (!this.data.authStaus) {
-      this.getAuth(path)
-    } else {
+    console.log('看看', this.data.saveNum)
+    const num = this.data.saveNum
+    this.setData({
+      saveNum: num + 1
+    })
+    const that = this
       wx.saveImageToPhotosAlbum({
         filePath: path,
         success(res) {
-          console.log('图片保存到手机成功')
-          wx.showToast({
-            title: '图片已保存',
-            duration: 2000
-          })
+          if (Number(that.data.saveNum) === Number(that.data.cutMethod)){
+            wx.showToast({
+              title: '所有图片已保存成功',
+              duration: 2000
+            })
+          }
         },
         fail(err) {
           wx.showToast({
-            title: '图片保存失败',
+            title: '图片保存失败,请重新保存!!',
             duration: 2000
           })
         }
       })
-    }
   },
   /**
    * 生命周期函数--监听页面加载

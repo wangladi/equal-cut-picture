@@ -1,17 +1,18 @@
 <!--pages/img/img.wxml-->
 <view class='img'>
-  <view wx:if="{{cutMethod == 4}}" class='line-assemble fourLine'>
-    <view class="cLine"></view>
-    <view class='rLine'></view>
+  <view class='img-area'>
+    <image src="{{url}}"></image>
+    <block wx:if="{{cutMethod == 4}}">
+      <view class="cLine line-bac four-c"></view>
+      <view class='rLine line-bac four-r'></view>
+    </block>
+    <block wx:if="{{cutMethod == 9}}">
+      <view class="cLine nine-c-one line-bac"></view>
+      <view class="cLine nine-c-two line-bac"></view>
+      <view class='rLine .nine-r-three line-bac'></view>
+      <view class='rLine nine-r-four line-bac'></view>
+    </block>
   </view>
-  <view wx:if="{{cutMethod == 9}}" class='line-assemble nineLine'>
-    <view class="cLine one"></view>
-    <view class="cLine two"></view>
-    <view class='rLine three'></view>
-    <view class='rLine four'></view>
-  </view>
-  <image src="{{url}}" class='img-area'></image> 
-    <!-- <image src="{{url}}" mode="aspectFit"></image>  -->
   <view class='bar'>
     <!-- 九宫格选中 https://s3.ax1x.com/2021/03/05/6elCY6.png-->
     <view class='bar-block' data-num='4' bindtap="swichMethod">

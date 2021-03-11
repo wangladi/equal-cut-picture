@@ -25,7 +25,6 @@ Page({
     const ctx = wx.createCanvasContext("imgCanvas", that);
     // ctx.drawImage(that.data.url, 0, 0, that.data.imgW, that.data.imgH);
     // ctx.draw()
-    console.log('本地缓存图片地址', that.data.url)
     wx.getImageInfo({
       src: that.data.url,
       success(res) {
@@ -110,8 +109,6 @@ Page({
         that.setData({
           url: res.tempFilePaths[0]
         })
-        // console.log(that.data.url)
-        console.log('图片上传成功', res)
       },
     })
   },
@@ -127,14 +124,11 @@ Page({
         that.setData({
           url: res.tempFilePaths[0]
         })
-        // console.log(that.data.url)
-        console.log('图片上传成功', res)
       },
     })
   },
   // 跳转去切割图片页面
   goCutPage() {
-    console.log('截取了吗')
     let x,y
     if (this.data.imgMode === 'heightFix') { // 横图
       y = 0
@@ -143,7 +137,6 @@ Page({
       x = 0
       y = this.data.areaTop - this.data.imgT
     }
-    console.log('拿到x,y了吗', x, y)
     const that = this
     wx.canvasToTempFilePath({
       x: x,
@@ -152,7 +145,6 @@ Page({
       height: 280,
       canvasId: 'imgCanvas',
       success(res) {
-        console.log('截取拿到的', res.tempFilePath)
         wx.navigateTo({
           url: `../img/img?imgUrl=${res.tempFilePath}`
         })
@@ -172,14 +164,12 @@ Page({
     // }
   },
   _start(e) {
-    // console.log('touchstart',e)
     this.setData({
       relativeX: e.touches[0].clientX - e.target.offsetLeft,
       relativeY: e.touches[0].clientY - e.target.offsetTop
     })
   },
   _move(e) {
-    console.log('touchmove', e.touches[0].clientX - this.data.relativeX)
     const [curLeft, curTop, sL, sT] = 
       [
         (e.touches[0].clientX - this.data.relativeX), 
@@ -202,17 +192,8 @@ Page({
     }
   },
   _end(e) {
-    console.log('touchend')
     console.log(this.data.imgL, this.data.imgT)
   },
   onLoad() {
-  },
-  getUserInfo(e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
-    })
   }
 })
