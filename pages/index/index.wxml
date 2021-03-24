@@ -1,0 +1,26 @@
+<!--index.wxml-->
+<view class="container">
+    <image src="{{url}}" bindtouchstart="_start" bindtouchmove="_move" bindtouchend="_end" 
+    style="width:{{imgW}}px;height:{{imgH}}px;left:{{imgL}}px;top:{{imgT}}px"
+class='cur-img' mode="{{imgMode}}" bindload="imgLoadFunc">
+    </image> 
+  <block>
+    <view wx:for="{{2}}" wx:key='index' class="{{index===0?'cover cover-left':'cover cover-right'}}"></view>
+  </block>
+  <block>
+    <view wx:for="{{2}}" wx:key='index' class="{{index===0?'cover cover-top':'cover cover-bottom'}}"></view>
+  </block>
+  <view class='img-box' bindtap="chooseImg">
+    <view class="border border-left-top"></view>
+    <view class="border border-left-bottom"></view>
+    <view class="border border-right-top"></view>
+    <view class="border border-right-bottom"></view>
+  </view>
+  <view class='btns'>
+    <button class='btn' bindtap='reselect'>选择图片</button>
+    <button class='btn' bindtap="goCutPage">确定</button>
+  </view>
+  <!-- style="width:{{imgW !== 'auto'?imgW + 'px':imgW}};height:{{iimgH !== 'auto'?imgH + 'px':imgH}}" -->
+  <canvas canvas-id="imgCanvas" class='img-canvas' style="width:{{imgW}}px;height:{{imgH}}px"></canvas>
+  <!-- <image src="{{cutImgPath}}" style="z-index:10000"></image> -->
+</view>
