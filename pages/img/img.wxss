@@ -1,0 +1,92 @@
+/* pages/img/img.wxss */
+.img {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: space-around;
+  background: #000;
+}
+.img-area {
+  position: relative;
+  width: 280px;
+  height: 280px;
+}
+.img-area image {
+  width: 100%;
+  height: 100%;
+}
+.bar {
+  height: 100px;
+  width: 100%;
+  background: #000;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  color: #fff;
+}
+.bar image{
+  width: 50px;
+  height: 100rpx;
+}
+.bar-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+.line-bac {
+  background: #000;
+}
+/* 分割线 cLine纵，rLine横 */
+.cLine {
+  width: 3px;
+  height: 100%;
+  position: absolute;
+  z-index: 100;
+}
+.rLine {
+  width: 100%;
+  height: 3px;
+  position: absolute;
+  z-index: 100;
+}
+.four-c{
+  top: 0;
+  left: calc( 50% - 0.5px );
+}
+.four-r{
+  top: calc( 50% - 0.5px);
+  left: 0;
+}
+/* 九宫格 */
+.nine-c-one{
+  top: 0;
+  left: calc( 33.3% - 0.5px );
+}
+.nine-c-two{
+  top: 0;
+  left: calc( 66.6% - 0.5px);
+}
+.nine-r-three{
+  top: calc( 33.3% - 0.5px );
+  left: 0;
+}
+.nine-r-four{
+  top: calc( 66.6% - 0.5px );
+  left: 0;
+}
+ /* 画布 */
+.square-canvas {
+  width: 280px;
+  height: 280px;
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  backgrund: red;
+  z-index: 101;
+}

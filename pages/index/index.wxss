@@ -1,0 +1,113 @@
+/**index.wxss**/
+.container {
+  position: relative;
+  /* width: 100vw; */
+  height: 100vh;
+  background:#000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+/* 画布 */
+.img-canvas{
+  position: fixed;
+  z-index: 2000;
+  top:-280px;
+  left: -500px;
+  pointer-events:none;
+}
+.cur-img {
+  position: absolute;
+  /* top: 30%; */
+}
+.image-w {
+  height: 100%;
+}
+.image-h {
+  width: 80%;
+}
+.img-box {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  /* border: 2rpx solid pink; */
+  z-index: 10;
+  pointer-events: none;
+}
+.border {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+}
+.border-left-top {
+  top: -3px;
+  left: -3px;
+  border-top: 3px solid #fff;
+  border-left: 3px solid #fff;
+}
+.border-left-bottom {
+  bottom: -3px;
+  left: -3px;
+  border-bottom: 3px solid #fff;
+  border-left: 3px solid #fff;
+}
+.border-right-top {
+  right: -3px;
+  top: -3px;
+  border-top: 3px solid #fff;
+  border-right: 3px solid #fff;
+}
+.border-right-bottom {
+  right: -3px;
+  bottom: -3px;
+  border-bottom: 3px solid #fff;
+  border-right:3px solid #fff;
+}
+.btns {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  z-index:10;
+}
+.btn {
+  border-top: 1px solid #555;
+  background: transparent;
+  color:#FFF;
+  border-radius: 0;
+  line-height: 50px;
+}
+.btn:first-child{
+  border-right: 1px solid #555;
+}
+/* 蒙层 */
+.cover {
+  position: fixed;
+  opacity: 0.4;
+  background: #000;
+  pointer-events: none;
+}
+.cover-top {
+  width: 100%;
+  height: calc(50vh - 140px);
+  top:0;
+}
+.cover-bottom {
+  width: 100%;
+  height: calc(50vh - 140px);
+  bottom:0;
+}
+.cover-left {
+  width: calc(50vw - 140px);
+  height: 283px;
+  left:0;
+}
+.cover-right {
+  width: calc(50vw - 140px);
+  height: 283px;
+  right:0;
+}
