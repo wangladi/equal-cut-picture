@@ -5,8 +5,8 @@
   height: 100vh;
   display: flex;
   flex-flow: column nowrap;
-  align-items: center;
   justify-content: space-around;
+  align-items: center;
   background: #000;
 }
 .img-area {
